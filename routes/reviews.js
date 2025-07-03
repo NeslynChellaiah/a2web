@@ -9,8 +9,8 @@ router.post('/', auth, async (req, res) => {
   if (!restaurantId || !rating || rating < 1 || rating > 5)
     return res.status(400).json({ message: "Missing required fields or invalid rating (1–5)." });
 
-  const exists = await Review.findOne({ restaurantId, userId: req.user.userId });
-  if (exists) return res.status(409).json({ message: "User has already reviewed this restaurant." });
+  const isExisting = await Review.findOne({ restaurantId, userId: req.user.userId });
+  if (isExisting) return res.status(409).json({ message: "User has already reviewed this restaurant." });
 
   const review = new Review({
     reviewId: uuidv4(),
